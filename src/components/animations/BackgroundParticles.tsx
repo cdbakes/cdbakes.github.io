@@ -54,17 +54,51 @@ const MOLECULE_CENTER = {
 // Background particle parameters
 const BACKGROUND_PARTICLE_SPEED = 0.2;
 const NUM_PARTICLES = 5000;
+const BACKGROUND_RETURN_SPEED = 0.05;
+
+interface Props {
+  skipAnimation?: boolean;
+}
+
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  speedX: number;
+  speedY: number;
+  originalSpeedX: number;
+  originalSpeedY: number;
+  opacity: number;
+  inDNA: boolean;
+  inMolecule: boolean;
+  strand: number;
+  moleculePoint?: number;
+  sphereIndex?: number;
+  targetX?: number;
+  targetY?: number;
+  id: number;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+interface Position {
+  x: number;
+  y: number;
+}
 
 export default function BackgroundParticles({ skipAnimation = false }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
   const frameRef = useRef<number>(0);
-  const mouseRef = useRef<{ x: -1000; y: -1000 }>({ x: -1000, y: -1000 });
-  const moleculePositionRef = useRef<{ x: 0; y: 0 }>({ x: 0, y: 0 });
-  const bondOpacityRef = useRef(0);
+  const mouseRef = useRef<MousePosition>({ x: -1000, y: -1000 });
+  const dnaPositionRef = useRef<Position>({ x: 0, y: 0 });
+  const moleculePositionRef = useRef<Position>({ x: 0, y: 0 });
+  const bondOpacityRef = useRef<number>(0);
   const isInRightSideRef = useRef(false);
   const isInLeftSideRef = useRef(false);
-  const dnaPositionRef = useRef({ x: 0, y: 0 });
   const [canvasReady, setCanvasReady] = useState(false);
 
   const isInRightSide = (x: number) => {

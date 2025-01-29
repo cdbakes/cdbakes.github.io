@@ -13,16 +13,26 @@ interface Props {
   onComplete?: () => void;
 }
 
+interface Particle {
+  x: number;
+  y: number;
+  targetX: number;
+  targetY: number;
+  size: number;
+  velocity: number;
+  angle: number;
+}
+
 const CANVAS_SIZE = 800;
 const PARTICLE_COUNT = 2000;
 
-export default function PortraitAnimation({ mode = 'geometric', }: Props) {
+export default function PortraitAnimation({ mode = 'geometric', onComplete }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [imageData, setImageData] = useState<ImageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const animationFrame = useRef<number>();
-  // const particles = useRef<any[]>([]);
-  const time = useRef(0);
+  const animationFrame = useRef<number | null>(null);
+  const particles = useRef<Particle[]>([]);
+  const time = useRef<number>(0);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -58,7 +68,7 @@ export default function PortraitAnimation({ mode = 'geometric', }: Props) {
     };
 
     loadImage();
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     if (!imageData || !canvasRef.current) return;

@@ -22,8 +22,8 @@ const STABILIZE_TIME = 2000    // Time to settle in position
 const FLOAT_TIME = 3000       // Slower float away
 
 export default function ProteinAnimation({ onComplete }: { onComplete: () => void }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>()
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
   
   useEffect(() => {
     const canvas = canvasRef.current
@@ -77,6 +77,11 @@ export default function ProteinAnimation({ onComplete }: { onComplete: () => voi
     function animate() {
       const now = Date.now()
       const elapsed = now - startTime
+      
+      const canvas = canvasRef.current
+      const ctx = canvas?.getContext('2d')
+      
+      if (!canvas || !ctx) return;
       
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       
@@ -181,7 +186,7 @@ export default function ProteinAnimation({ onComplete }: { onComplete: () => voi
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [onComplete])
+  }, [onComplete, canvasRef, animationRef])
 
   return (
     <canvas
