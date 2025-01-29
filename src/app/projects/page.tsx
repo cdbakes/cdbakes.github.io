@@ -15,18 +15,22 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Singh Lab Project",
-    description: "Research project focused on [project details]",
-    technologies: ["Python", "Data Analysis"],
-    githubUrl: "https://github.com/Cbaker37/singh-lab-project",
+    title: "Unbalanced Augmented Gromov-Wasserstein (UAGW) Optimal Transport Distance",
+    description: "Research project in the Singh lab focused on formulating UAGW optimal transport and solving it numerically, for the purpose of integrating single cell data.",
+    technologies: ["Python", "Pytorch"],
+    githubUrl: "https://github.com/orgs/scotplus/repositories",
   },
   {
-    title: "Peterson Lab Project",
-    description: "Development work on [project details]",
-    technologies: ["Python", "Machine Learning"],
-    gitlabUrl: "https://gitlab.com/Cbaker37/peterson-lab-project",
+    title: "Solving the Generalized Poisson Equation in Planewave",
+    description: "Research project in the Peterson lab focused on speeding up Poisson equation calculations and enabling planewave bases for implicit solvent density functional theory (DFT). Note that the repository below will be the eventual destination for this project, although much of it is currently in a private repository.",
+    technologies: ["Python", "Scientific Computing", "GPAW"],
+    gitlabUrl: "https://gitlab.com/Cbaker37/gpaw_sjmpw",
   },
-  // Add more projects here
+  {
+    title: "Generalizing Hydrophobicity Scales and Combinatoric Algorithms for Protein Folding",
+    description: "Research project in the Istrail lab focused on generalizing hydrophobicity scales and combinatoric algorithms for the purpose of providing physical context to the newest deep learning techniques for structure prediction.",
+    technologies: ["Python", "OpenMM", "AlphaFold"],
+  },
 ]
 
 export default function Projects() {
@@ -41,7 +45,7 @@ export default function Projects() {
         >
           <h1 className="text-4xl font-bold mb-4">Projects</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            A collection of my research and development work
+            A collection of my research
           </p>
         </motion.div>
 

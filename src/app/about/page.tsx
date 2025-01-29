@@ -27,7 +27,7 @@ export default function About() {
           </div>
           <h1 className="text-4xl font-bold mb-4">About Me</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            Developer & Researcher passionate about building innovative solutions
+            Researcher in computer science and computational chemistry
           </p>
         </motion.div>
 
@@ -38,25 +38,18 @@ export default function About() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="prose dark:prose-invert max-w-none mb-16"
         >
-          <h2 className="text-2xl font-semibold mb-4">Background</h2>
-          <p className="mb-4">
-            I am a software engineer with a passion for creating elegant solutions
-            to complex problems. My journey in technology began...
-          </p>
 
-          <h2 className="text-2xl font-semibold mb-4">Skills & Expertise</h2>
+          <h2 className="text-2xl font-semibold mb-4">Skills</h2>
           <ul className="list-disc list-inside mb-4">
-            <li>Full-stack Development</li>
+            <li>Numeric Optimization</li>
             <li>Machine Learning</li>
-            <li>System Architecture</li>
-            <li>Cloud Computing</li>
+            <li>Scientific Computing</li>
+            <li>Software Development</li>
           </ul>
 
           <h2 className="text-2xl font-semibold mb-4">Interests</h2>
           <p className="mb-4">
-            Outside of coding, I enjoy exploring new technologies, contributing to
-            open-source projects, and staying up-to-date with the latest industry
-            trends.
+            Outside of coding, I enjoy playing video games and rowing. I also like to spend time with my 130lb Newfoundland, Minnie!
           </p>
         </motion.div>
       </div>

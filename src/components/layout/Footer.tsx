@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col items-center">
           <div className="flex space-x-6 mb-6">
             <a
-              href="https://github.com/Cbaker37"
+              href="https://github.com/cdbakes"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
