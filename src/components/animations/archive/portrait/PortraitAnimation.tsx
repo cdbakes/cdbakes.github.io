@@ -26,7 +26,7 @@ interface Particle {
 const CANVAS_SIZE = 800;
 const PARTICLE_COUNT = 2000;
 
-export default function PortraitAnimation({ mode = 'geometric', onComplete }: Props) {
+export default function PortraitAnimation({ mode = 'geometric' }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [imageData, setImageData] = useState<ImageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
