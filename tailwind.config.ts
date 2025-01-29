@@ -71,10 +71,35 @@ const config: Config = {
             'background-position': 'right center'
           }
         }
-      }
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            'code::before': {
+              content: '""'
+            },
+            'code::after': {
+              content: '""'
+            },
+            code: {
+              backgroundColor: 'rgb(var(--tw-prose-pre-bg))',
+              padding: '0.25rem 0.375rem',
+              borderRadius: '0.375rem',
+              fontWeight: '400'
+            }
+          }
+        }
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 
 export default config
