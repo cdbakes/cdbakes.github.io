@@ -92,7 +92,7 @@ const experiences: Experience[] = [
     organization: "Introduction to Cryptography and Computer Security",
     period: "09/2024 - 12/2024",
     description: [
-      "Held even more office hours, going through complex reductions with students of a variety of cryptography backgrounds.",
+      "Held office hours, going through complex reductions with students of a variety of cryptography backgrounds.",
       "Worked with two other teaching assistants to coordinate assignments and grading.",
       "Wrote over 160 pages of solutions to all of the course content to help students understand the material better. Included both shorter and more detailed answers to ensure readibility."
     ],

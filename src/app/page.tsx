@@ -5,54 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import BackgroundParticles from "@/components/animations/BackgroundParticles";
 import HoverCard from "@/components/ui/HoverCard";
-
-const nameVariants = {
-  initial: {
-    opacity: 0,
-    filter: "blur(10px)",
-    y: 20,
-  },
-  animate: {
-    opacity: 1,
-    filter: "blur(0px)",
-    y: 0,
-    transition: {
-      duration: 1.5,
-      ease: [0.43, 0.13, 0.23, 0.96],
-    },
-  },
-};
-
-const letterVariants = {
-  initial: { y: 20, opacity: 0 },
-  animate: (i: number) => ({
-    y: 0,
-    opacity: 1,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: [0.43, 0.13, 0.23, 0.96],
-    },
-  }),
-};
-
-const descriptionVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-    filter: "blur(5px)",
-  },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      delay: 1 + i * 0.15,
-      duration: 0.8,
-      ease: [0.43, 0.13, 0.23, 0.96],
-    },
-  }),
-};
+import { nameContainerVariants, nameLetterVariants, nameUnderlineVariants } from "@/utils/animations";
 
 export default function Home() {
   const [, setShowContent] = useState(true);
@@ -116,8 +69,8 @@ export default function Home() {
           <div className="space-y-8">
             {/* Name */}
             <div className="relative">
-              <motion.h1
-                variants={nameVariants}
+              <motion.div
+                variants={nameContainerVariants}
                 initial="initial"
                 animate="animate"
                 className="text-6xl md:text-8xl font-montserrat font-bold relative z-10 py-2 text-gray-800 dark:text-white"
@@ -126,10 +79,7 @@ export default function Home() {
                   {"Colin Baker".split("").map((letter, i) => (
                     <motion.span
                       key={i}
-                      custom={i}
-                      variants={letterVariants}
-                      initial="initial"
-                      animate="animate"
+                      variants={nameLetterVariants}
                       className={`inline-block relative tracking-wide
                         ${letter === " " ? "mr-4" : ""}
                         hover:text-transparent hover:bg-clip-text
@@ -140,26 +90,14 @@ export default function Home() {
                     </motion.span>
                   ))}
                 </span>
-              </motion.h1>
+              </motion.div>
 
               {/* Decorative underline */}
               <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{
-                  delay: 1.5,
-                  duration: 1,
-                  ease: [0.43, 0.13, 0.23, 0.96],
-                }}
-                className="absolute -bottom-2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-600 to-transparent dark:via-blue-400"
-              />
-
-              {/* Glow effect */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2, duration: 1 }}
-                className="absolute inset-0 filter blur-3xl bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-pink-600/5 dark:from-blue-500/10 dark:via-purple-500/10 dark:to-pink-500/10 z-0"
+                variants={nameUnderlineVariants}
+                initial="initial"
+                animate="animate"
+                className="absolute -bottom-2 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-400 dark:to-teal-400"
               />
             </div>
 
@@ -168,10 +106,13 @@ export default function Home() {
               {descriptions.map((desc, i) => (
                 <motion.p
                   key={i}
-                  custom={i}
-                  variants={descriptionVariants}
-                  initial="hidden"
-                  animate="visible"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: 0.8 + i * 0.1,
+                    duration: 0.5,
+                    ease: [0.2, 0.65, 0.3, 0.9],
+                  }}
                   className="text-xl text-gray-600 dark:text-blue-200/90 font-light tracking-wide"
                 >
                   {desc}
@@ -181,15 +122,12 @@ export default function Home() {
 
             {/* Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
-                delay: 2,
-                ease: [0.43, 0.13, 0.23, 0.96],
+                delay: 1,
+                duration: 0.5,
+                ease: [0.2, 0.65, 0.3, 0.9],
               }}
               className="flex flex-col md:flex-row gap-4 justify-center pt-4"
             >

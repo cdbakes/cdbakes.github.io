@@ -31,7 +31,7 @@ export default function BlogPostLayout({
           </Link>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+        <article className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
           <div className="flex flex-wrap gap-2 mb-6">
             {tags.map((tag) => (
               <span
@@ -52,11 +52,11 @@ export default function BlogPostLayout({
             <span>{readTime}</span>
           </div>
 
-          <article 
+          <div 
             className="prose dark:prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: content }}
           />
-        </div>
+        </article>
       </div>
     </div>
   )
