@@ -178,7 +178,7 @@ export default function Home() {
               <h3 className="text-gray-100 dark:text-gray-900 text-lg font-semibold mb-2">Education</h3>
               <p className="text-gray-300 dark:text-gray-600">
                 I am currently in my final semester at Brown University, where I am majoring in Computer Science with a focus on biology and chemistry.
-                I am grateful for to have taken a variety of unique courses at Brown, ranging from graduate machine learning to atomistic reaction engineering.
+                I am grateful to have taken a variety of unique courses at Brown, ranging from graduate machine learning to atomistic reaction engineering.
               </p>
             </HoverCard>
           </div>
