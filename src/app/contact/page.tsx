@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { FaGithub, FaGitlab, FaLinkedin } from 'react-icons/fa'
-import { sendEmail } from '../actions/email'
 import { useState, useRef } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -10,36 +9,52 @@ export default function Contact() {
   const [status, setStatus] = useState<{ success?: boolean; error?: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsSubmitting(true)
     setStatus({})
 
-    const formData = new FormData(event.currentTarget)
     try {
-      // Get reCAPTCHA token
-      const token = await recaptchaRef.current?.executeAsync()
+      const token = recaptchaRef.current?.getValue()
       if (!token) {
         setStatus({ error: 'Please complete the reCAPTCHA verification' })
+        setIsSubmitting(false)
         return
       }
-      
-      // Add token to form data
-      formData.append('recaptchaToken', token)
 
-      const result = await sendEmail(formData)
-      if (result.error) {
-        setStatus({ error: result.error })
+      const formData = new FormData(event.currentTarget)
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message'),
+        recaptchaToken: token,
+      }
+
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+      
+      if (!response.ok) {
+        setStatus({ error: result.error || 'Failed to send email. Please try again later.' })
       } else {
         setStatus({ success: true })
-        // Reset the form
-        const form = document.getElementById('contact-form') as HTMLFormElement
-        form.reset()
-        // Reset reCAPTCHA
-        recaptchaRef.current?.reset()
+        if (formRef.current) {
+          formRef.current.reset()
+        }
+        if (recaptchaRef.current) {
+          recaptchaRef.current.reset()
+        }
       }
     } catch (error) {
+      console.error('Form submission error:', error)
       setStatus({ error: 'An unexpected error occurred. Please try again later.' })
     } finally {
       setIsSubmitting(false)
@@ -80,7 +95,7 @@ export default function Contact() {
                 Message sent successfully! I'll get back to you soon.
               </div>
             )}
-            <form id="contact-form" onSubmit={handleSubmit} className="space-y-4">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-1">
                   Name
@@ -120,7 +135,7 @@ export default function Contact() {
               <div className="flex justify-center">
                 <ReCAPTCHA
                   ref={recaptchaRef}
-                  sitekey={process.env.RECAPTCHA_SITE_KEY || ''}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
                   size="normal"
                 />
               </div>
