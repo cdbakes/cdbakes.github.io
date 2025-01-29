@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { FaCalendar, FaClock, FaTags } from 'react-icons/fa'
+import { FaCalendar, FaClock } from 'react-icons/fa'
 
 interface BlogPost {
   slug: string

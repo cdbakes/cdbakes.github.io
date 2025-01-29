@@ -92,7 +92,7 @@ export default function Contact() {
             )}
             {status.success && (
               <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                Message sent successfully! I'll get back to you soon.
+                Message sent successfully! I will get back to you soon.
               </div>
             )}
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">

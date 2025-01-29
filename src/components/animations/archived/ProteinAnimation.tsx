@@ -87,7 +87,6 @@ export default function ProteinAnimation({ onComplete }: { onComplete: () => voi
           // Gentle formation phase
           const dx = particle.targetX - particle.x
           const dy = particle.targetY - particle.y
-          const distance = Math.sqrt(dx * dx + dy * dy)
           
           // Weaker force for gentler movement
           const force = 0.008

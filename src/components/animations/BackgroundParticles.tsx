@@ -14,7 +14,6 @@ const PHI = (1 + Math.sqrt(5)) / 2;
 // DNA and other constants
 const DNA_HEIGHT = 1000;
 const DNA_WIDTH = 35;
-const DNA_ROTATION_SPEED = 0.0012;
 const DNA_CONNECTION_DISTANCE = DNA_HEIGHT / 3;  // Reduced connection check distance
 const PARTICLES_PER_STRAND = 100;
 const HELIX_ROTATION_SPEED = 0.0012;
@@ -25,7 +24,6 @@ const OSCILLATION_SPEED = 0.002;
 const OSCILLATION_AMOUNT = 2;
 const OSCILLATION_PHASE = Math.PI / 2;
 const FLOCKING_SPEED = 0.1;
-const PHASE_OFFSET = 0.2;
 
 // Molecule parameters
 const MOLECULE_POINTS = ATOM_POSITIONS.length; // Total atoms (fullerene C60)
@@ -33,7 +31,6 @@ const BASE_MOLECULE_RADIUS = 200;  // Overall scale of the molecule
 const MOLECULE_ROTATION_SPEED = 0.0005;
 const PARTICLES_PER_SPHERE = 32;
 const BASE_SPHERE_RADIUS = 15;     // Size of individual atoms
-const BOND_LENGTH = 0.5;
 const WOBBLE_SPEED = 0.001;
 const WOBBLE_AMOUNT = 0.4;
 const BOND_WIDTH = 5;
@@ -45,7 +42,6 @@ const SPHERE_CENTER_PARTICLES = 8;      // Number of particles for sphere center
 const CENTER_LINE = 0.5;       // Center of screen
 const MIN_SCALE = 0.6;         // Minimum scale for mobile
 const MOBILE_BREAKPOINT = 768;
-const NAME_HEIGHT_RATIO = 0.6;  // Approximate vertical position of name
 const CENTERED_Y_OFFSET = 0.2;  // Moved up to 20% from top
 const MOLECULE_FLOCKING_SPEED = 0.03;  // Speed for molecule particles
 
@@ -295,7 +291,6 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
       const SPHERE_RADIUS = BASE_SPHERE_RADIUS * scale;
 
       // Determine if we're in mobile view and if there's space for the molecule on the left
-      const isMobile = width < MOBILE_BREAKPOINT;
       const hasSpaceOnLeft = width > MOBILE_BREAKPOINT && width > 1000;
 
       // Position molecule based on available space
@@ -316,7 +311,6 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
 
       // Calculate bond opacity based on mouse position with smooth fade
       const mouseXRatio = mouseRef.current.x / width;
-      const mouseYRatio = mouseRef.current.y / height;
       
       // Only calculate opacity if mouse is actually on screen
       let targetOpacity = 0;

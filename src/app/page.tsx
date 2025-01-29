@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import BackgroundParticles from "@/components/animations/BackgroundParticles";
@@ -55,7 +55,7 @@ const descriptionVariants = {
 };
 
 export default function Home() {
-  const [showContent, setShowContent] = useState(true);
+  const [, setShowContent] = useState(true);
   const [showText, setShowText] = useState(true);
   const [skipAnimation, setSkipAnimation] = useState(false);
   const animationCompleteRef = useRef(true);
@@ -232,7 +232,7 @@ export default function Home() {
               <h3 className="text-gray-100 dark:text-gray-900 text-lg font-semibold mb-2">Teaching</h3>
               <p className="text-gray-300 dark:text-gray-600">
                 I am a head teaching assistant for CSCI 2840: Advanced Algorithms in Computational Biology and Medical Bioinformatics at Brown University.
-                I've previously worked on a range of other courses, including introductory computational biology and theoretical cryptography and computer security.
+                I have previously worked on a range of other courses, including introductory computational biology and theoretical cryptography and computer security.
               </p>
             </HoverCard>
 

@@ -15,14 +15,13 @@ interface Props {
 
 const CANVAS_SIZE = 800;
 const PARTICLE_COUNT = 2000;
-const TRANSITION_DURATION = 1000;
 
-export default function PortraitAnimation({ mode = 'geometric', onComplete }: Props) {
+export default function PortraitAnimation({ mode = 'geometric', }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [imageData, setImageData] = useState<ImageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const animationFrame = useRef<number>();
-  const particles = useRef<any[]>([]);
+  // const particles = useRef<any[]>([]);
   const time = useRef(0);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
