@@ -46,7 +46,7 @@ export default function Privacy() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Third-Party Links</h2>
             <p>
-              This website contains links to external sites (such as GitHub). This privacy policy only applies to this website, and you should refer to those sites' respective privacy policies.
+              This website contains links to external sites (such as GitHub). This privacy policy applies to only this website, and you should refer to the respective privacy policies of those sites.
             </p>
           </section>
 
