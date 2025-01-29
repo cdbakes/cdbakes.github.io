@@ -51,7 +51,7 @@ export default function Contact() {
       form.reset()
       recaptchaRef.current?.reset()
     } catch (error) {
-      console.error('Submission error:', error)
+      console.log('Submission error:', error)
       setError('Failed to send message')
     }
   }
