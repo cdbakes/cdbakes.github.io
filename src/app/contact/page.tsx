@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FaGithub, FaGitlab, FaLinkedin } from 'react-icons/fa'
 import { useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -9,6 +8,20 @@ interface FormState {
   error?: string
   success?: boolean
   isSubmitting: boolean
+}
+
+interface FormspreeError {
+  code: string
+  message: string
+  field?: string
+}
+
+interface FormspreeResponse {
+  ok: boolean
+  error?: string
+  errors?: FormspreeError[]
+  next?: string
+  submission_id?: string
 }
 
 export default function Contact() {
@@ -44,10 +57,10 @@ export default function Contact() {
         }
       })
 
-      const data = await response.json()
+      const data = await response.json() as FormspreeResponse
 
       if (!response.ok) {
-        const errorMessage = data.errors?.map((err: any) => err.message).join(', ') || 
+        const errorMessage = data.errors?.map(err => err.message).join(', ') || 
                            data.error || 
                            'Failed to send message'
         setFormState({
