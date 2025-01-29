@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-r from-gray-100 via-blue-50 to-gray-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-900" />
 
@@ -73,15 +73,15 @@ export default function Home() {
                 variants={nameContainerVariants}
                 initial="initial"
                 animate="animate"
-                className="text-6xl md:text-8xl font-montserrat font-bold relative z-10 py-2 text-gray-800 dark:text-white"
+                className="text-5xl sm:text-6xl md:text-8xl font-montserrat font-bold relative z-10 py-2 text-gray-800 dark:text-white"
               >
                 <span className="relative inline-block">
                   {"Colin Baker".split("").map((letter, i) => (
                     <motion.span
                       key={i}
                       variants={nameLetterVariants}
-                      className={`inline-block relative tracking-wide
-                        ${letter === " " ? "mr-4" : ""}
+                      className={`inline-block relative tracking-tight sm:tracking-wide
+                        ${letter === " " ? "mr-2 sm:mr-4" : ""}
                         hover:text-transparent hover:bg-clip-text
                         hover:bg-gradient-to-r hover:from-blue-500 hover:to-teal-500
                         transition-all duration-500`}
@@ -131,23 +131,27 @@ export default function Home() {
               }}
               className="flex flex-col md:flex-row gap-4 justify-center pt-4"
             >
-              <div className="flex gap-4 mt-4">
-                <HoverCard className="inline-block">
-                  <Link
-                    href="/experience"
-                    className="text-gray-100 dark:text-gray-900 hover:text-gray-300 dark:hover:text-gray-600"
-                  >
-                    Experience →
-                  </Link>
-                </HoverCard>
-                <HoverCard className="inline-block">
-                  <Link
-                    href="/projects"
-                    className="text-gray-100 dark:text-gray-900 hover:text-gray-300 dark:hover:text-gray-600"
-                  >
-                    Projects →
-                  </Link>
-                </HoverCard>
+              <div className="flex gap-6 justify-center">
+                <Link
+                  href="/experience"
+                  className="group relative px-6 py-3 font-semibold text-gray-100 dark:text-gray-900 transition-all duration-300"
+                >
+                  <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-blue-500/80 group-hover:bg-blue-600/90 dark:group-hover:bg-blue-400/90 rounded-lg"></span>
+                  <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-blue-600/90 group-hover:bg-blue-700/90 dark:group-hover:bg-blue-500/90 rounded-lg delayed"></span>
+                  <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-blue-600/90 -rotate-12"></span>
+                  <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-blue-600/90 -rotate-12"></span>
+                  <span className="relative">Experience</span>
+                </Link>
+                <Link
+                  href="/projects"
+                  className="group relative px-6 py-3 font-semibold text-gray-100 dark:text-gray-900 transition-all duration-300"
+                >
+                  <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform translate-x-0 -skew-x-12 bg-teal-500/80 group-hover:bg-teal-600/90 dark:group-hover:bg-teal-400/90 rounded-lg"></span>
+                  <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-teal-600/90 group-hover:bg-teal-700/90 dark:group-hover:bg-teal-500/90 rounded-lg delayed"></span>
+                  <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-teal-600/90 -rotate-12"></span>
+                  <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-teal-600/90 -rotate-12"></span>
+                  <span className="relative">Projects</span>
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -155,7 +159,7 @@ export default function Home() {
       </section>
 
       {/* Quick Links Section */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section className="py-12 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <HoverCard className="h-full">

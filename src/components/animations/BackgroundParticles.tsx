@@ -23,27 +23,27 @@ const STRAND_SPACING = Math.PI;  // Half rotation offset between strands
 const OSCILLATION_SPEED = 0.002;
 const OSCILLATION_AMOUNT = 2;
 const OSCILLATION_PHASE = Math.PI / 2;
-const FLOCKING_SPEED = 0.1;
+const FLOCKING_SPEED = 0.15;  // Increased from 0.1
 
 // Molecule parameters
-const MOLECULE_POINTS = ATOM_POSITIONS.length; // Total atoms (fullerene C60)
-const BASE_MOLECULE_RADIUS = 200;  // Overall scale of the molecule
+const MOLECULE_POINTS = ATOM_POSITIONS.length;
+const BASE_MOLECULE_RADIUS = 200;
 const MOLECULE_ROTATION_SPEED = 0.0005;
 const PARTICLES_PER_SPHERE = 32;
-const BASE_SPHERE_RADIUS = 15;     // Size of individual atoms
+const BASE_SPHERE_RADIUS = 15;
 const WOBBLE_SPEED = 0.001;
 const WOBBLE_AMOUNT = 0.4;
 const BOND_WIDTH = 5;
-const MOLECULE_FADE_SPEED = 0.9;
+const MOLECULE_FADE_SPEED = 1.2;  // Increased from 0.9
 const FADE_START_RATIO = 0.47;
-const SPHERE_CENTER_PARTICLES = 8;      // Number of particles for sphere center
+const SPHERE_CENTER_PARTICLES = 8;
 
 // Layout constants
-const CENTER_LINE = 0.5;       // Center of screen
-const MIN_SCALE = 0.6;         // Minimum scale for mobile
+const CENTER_LINE = 0.5;
+const MIN_SCALE = 0.6;
 const MOBILE_BREAKPOINT = 768;
-const CENTERED_Y_OFFSET = 0.2;  // Moved up to 20% from top
-const MOLECULE_FLOCKING_SPEED = 0.03;  // Speed for molecule particles
+const CENTERED_Y_OFFSET = 0.2;
+const MOLECULE_FLOCKING_SPEED = 0.04;  // Increased from 0.03
 
 // Screen position for the molecule (0,0 is top-left, 1,1 is bottom-right)
 const MOLECULE_CENTER = {
@@ -52,7 +52,7 @@ const MOLECULE_CENTER = {
 };
 
 // Background particle parameters
-const BACKGROUND_PARTICLE_SPEED = 0.2;
+const BACKGROUND_PARTICLE_SPEED = 0.13;
 const NUM_PARTICLES = 5000;
 const BACKGROUND_RETURN_SPEED = 0.05;
 

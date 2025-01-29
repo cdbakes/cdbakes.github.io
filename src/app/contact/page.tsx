@@ -102,7 +102,7 @@ export default function Contact() {
               <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex flex-col gap-1">
                 <div className="font-medium">Unable to send message</div>
                 <div className="text-sm">{formState.error}</div>
-                <div className="text-sm mt-1">Please try again or contact me directly at <a href="mailto:colindbaker7@gmail.com" className="underline hover:text-red-800">colindbaker7@gmail.com</a></div>
+                <div className="text-sm mt-1">Please try again later</div>
               </div>
             )}
             {formState.success && (
