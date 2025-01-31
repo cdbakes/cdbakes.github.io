@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Website
+
+This is my personal website built with [Next.js](https://nextjs.org), featuring an interactive molecular viewer, blog system, and dynamic UI components. The site showcases my work, thoughts, and interests in a modern, responsive design.
+
+## Features
+
+- **Interactive 3D Molecular Viewer**: Visualize molecular structures with dynamic animations
+- **Blog System**: Markdown-based blog posts with syntax highlighting
+- **Dark/Light Mode**: Theme support using next-themes
+- **Responsive Design**: Built with Tailwind CSS for a mobile-first approach
+- **Contact Form**: Secure contact form with reCAPTCHA integration
+- **Performance Optimized**: Built with Next.js for optimal loading and rendering
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
 
+3. Copy the environment variables:
+```bash
+cp .env.example .env.local
+```
+
+4. Start the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/src/components` - React components
+- `/src/pages` - Next.js pages and API routes
+- `/public/sdf` - Molecular structure files
+- `/public/blog` - Blog post markdown files
+- `/scripts` - Utility scripts for site maintenance
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run update-molecule` - Update molecular structure constants
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Molecule Updates
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To update the molecule constants after modifying SDF files:
 
-## Deploy on Vercel
+```bash
+npm run update-molecule
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org/) - React framework
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [next-themes](https://github.com/pacocoursey/next-themes) - Theme management
+- [markdown-it](https://github.com/markdown-it/markdown-it) - Markdown processing
+- [React Icons](https://react-icons.github.io/react-icons/) - Icon library
+
+## Deployment
+
+I deployed this on GitHub pages, given the site is entirely static.
