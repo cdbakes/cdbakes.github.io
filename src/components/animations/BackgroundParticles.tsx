@@ -99,6 +99,13 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
   const bondOpacityRef = useRef<number>(0);
   const isInRightSideRef = useRef(false);
   const isInLeftSideRef = useRef(false);
+  const isDraggingRef = useRef(false);
+  const lastMousePosRef = useRef<Position>({ x: 0, y: 0 });
+  const rotationRef = useRef<Position>({ x: 0, y: 0 });
+  const baseRotationRef = useRef<Position>({ x: 0, y: 0 });
+  const autoRotationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isAutoRotatingRef = useRef(true);
+  const autoRotationStartTimeRef = useRef(Date.now());
   const [canvasReady, setCanvasReady] = useState(false);
 
   const isInRightSide = (x: number) => {
@@ -113,15 +120,83 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
     return x < canvas.width * 0.5;
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseDown = (e: MouseEvent) => {
     const canvas = canvasRef.current;
     if (!canvas || !canvasReady) return;
 
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    const currentlyInRightSide = isInRightSide(x);
-    const currentlyInLeftSide = isInLeftSide(x);
+    // Only start dragging if we're near the molecule
+    const dx = x - moleculePositionRef.current.x;
+    const dy = y - moleculePositionRef.current.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (distance < BASE_MOLECULE_RADIUS) {
+      isDraggingRef.current = true;
+      isAutoRotatingRef.current = false;
+      lastMousePosRef.current = { x, y };
+      
+      // Store current auto-rotation angle
+      autoRotationStartTimeRef.current = Date.now();
+      
+      // Clear any existing timeout
+      if (autoRotationTimeoutRef.current) {
+        clearTimeout(autoRotationTimeoutRef.current);
+        autoRotationTimeoutRef.current = null;
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (isDraggingRef.current) {
+      isDraggingRef.current = false;
+      
+      // Clear any existing timeout
+      if (autoRotationTimeoutRef.current) {
+        clearTimeout(autoRotationTimeoutRef.current);
+      }
+      
+      // Store current rotation as the new base rotation
+      baseRotationRef.current = { ...rotationRef.current };
+      autoRotationStartTimeRef.current = Date.now();
+      
+      // Resume auto-rotation immediately
+      autoRotationTimeoutRef.current = setTimeout(() => {
+        isAutoRotatingRef.current = true;
+      }, 0);
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas || !canvasReady) return;
+
+    const rect = canvas.getBoundingClientRect();
+    // Use client coordinates relative to the window
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    // Always update mouseRef with current position
+    mouseRef.current = { x, y };
+
+    // Handle rotation if dragging
+    if (isDraggingRef.current) {
+      const dx = x - lastMousePosRef.current.x;
+      const dy = y - lastMousePosRef.current.y;
+      
+      // Update rotation based on mouse movement
+      rotationRef.current.x += dy * 0.01;
+      rotationRef.current.y += dx * 0.01;
+      
+      lastMousePosRef.current = { x, y };
+      return;
+    }
+
+    // Check if mouse is in right or left side based on window width
+    const currentlyInRightSide = x > canvas.width * 0.5;
+    const currentlyInLeftSide = x < canvas.width * 0.5;
 
     if (currentlyInRightSide !== isInRightSideRef.current) {
       isInRightSideRef.current = currentlyInRightSide;
@@ -150,23 +225,24 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
         });
       }
     }
-
-    mouseRef.current = { x, y: e.clientY - rect.top };
   };
 
   const handleMouseLeave = () => {
-    isInRightSideRef.current = false;
-    isInLeftSideRef.current = false;
-    mouseRef.current = { x: -1000, y: -1000 };
-    bondOpacityRef.current = 0;
-    particles.current.forEach((p) => {
-      p.inDNA = false;
-      p.inMolecule = false;
-      p.strand = 0;
-      p.moleculePoint = undefined;
-      p.speedX = p.originalSpeedX;
-      p.speedY = p.originalSpeedY;
-    });
+    // Only reset if we're not dragging
+    if (!isDraggingRef.current) {
+      isInRightSideRef.current = false;
+      isInLeftSideRef.current = false;
+      mouseRef.current = { x: -1000, y: -1000 };
+      bondOpacityRef.current = 0;
+      particles.current.forEach((p) => {
+        p.inDNA = false;
+        p.inMolecule = false;
+        p.strand = 0;
+        p.moleculePoint = undefined;
+        p.speedX = p.originalSpeedX;
+        p.speedY = p.originalSpeedY;
+      });
+    }
   };
 
   useEffect(() => {
@@ -227,19 +303,32 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
       return { x, y };
     };
 
-    const getMoleculePoints = (rotation: number) => {
-      const cos = Math.cos(rotation);
-      const sin = Math.sin(rotation);
+    const getMoleculePoints = (time: number) => {
+      // Calculate rotations
+      let totalRotationX = rotationRef.current.x;
+      let totalRotationY = rotationRef.current.y;
       
-      // Apply rotation to atom positions
+      // Add auto-rotation if enabled
+      if (isAutoRotatingRef.current) {
+        const timeSinceStart = time - autoRotationStartTimeRef.current;
+        totalRotationY = baseRotationRef.current.y + (timeSinceStart * MOLECULE_ROTATION_SPEED);
+        totalRotationX = baseRotationRef.current.x;
+      }
+      
       return ATOM_POSITIONS.map((p, i) => {
-        const rotX = p.x * cos - p.z * sin;
-        const rotZ = p.x * sin + p.z * cos;
+        // First rotate around Y axis
+        let x = p.x * Math.cos(totalRotationY) - p.z * Math.sin(totalRotationY);
+        let z = p.x * Math.sin(totalRotationY) + p.z * Math.cos(totalRotationY);
+        
+        // Then rotate around X axis
+        let y = p.y * Math.cos(totalRotationX) - z * Math.sin(totalRotationX);
+        z = p.y * Math.sin(totalRotationX) + z * Math.cos(totalRotationX);
+        
         return {
-          x: rotX,
-          y: p.y,
-          z: rotZ,
-          size: i === 1 ? 1 : 0.8  // Make carbon (index 1) slightly larger
+          x: x,
+          y: y,
+          z: z,
+          size: i === 1 ? 1 : 0.8
         };
       });
     };
@@ -362,7 +451,7 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
       bondOpacityRef.current += (targetOpacity - bondOpacityRef.current) * MOLECULE_FADE_SPEED;
 
       // Draw molecule bonds first (separate from particle loop)
-      const points = getMoleculePoints(time * MOLECULE_ROTATION_SPEED);
+      const points = getMoleculePoints(time);
       
       // Only draw bonds if mouse is on screen and opacity is non-zero
       if (bondOpacityRef.current > 0.01 && mouseRef.current.x > 0) {
@@ -612,15 +701,20 @@ export default function BackgroundParticles({ skipAnimation = false }: Props) {
     };
 
     updateCanvasSize();
-    window.addEventListener("resize", updateCanvasSize);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
+    canvas.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
+    // Use window mousemove instead of canvas
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('resize', updateCanvasSize);
     animate();
 
     return () => {
-      window.removeEventListener("resize", updateCanvasSize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('resize', updateCanvasSize);
       cancelAnimationFrame(frameRef.current);
     };
   }, [canvasReady]);
